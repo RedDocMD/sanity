@@ -1,6 +1,7 @@
 module Main where
 
 import           Cube
+import           Data.Foldable                  ( forM_ )
 import qualified Data.Map.Lazy                 as M
 import           Solver
 
@@ -53,9 +54,9 @@ cubes =
 
 main :: IO ()
 main = do
-    case validCubeConfiguration cubes of
-        Just conf -> displayConfiguration conf
-        Nothing   -> putStrLn "No valid configuration found!"
+    forM_ (validCubeConfiguration cubes) displayConfiguration
+    putStrLn $ "No. of valid configurations = " ++ show
+        (countValidCubeConfigurations cubes)
 
 
 displayPosition :: Position -> IO ()
@@ -69,4 +70,7 @@ displayPosition Position { cube = (Cube name _), frontFace = front, topFace = to
         ++ show top
 
 displayConfiguration :: [Position] -> IO ()
-displayConfiguration = foldMap displayPosition
+displayConfiguration conf = do
+    putStrLn "One valid configuration:"
+    foldMap displayPosition conf
+    putStrLn ""

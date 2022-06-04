@@ -1,6 +1,7 @@
 module Solver
     ( Position(..)
     , validCubeConfiguration
+    , countValidCubeConfigurations
     ) where
 
 
@@ -64,3 +65,8 @@ allCubeConfigurations = concatMap cubeConfigurations . permutations
 
 validCubeConfiguration :: [Cube] -> Maybe [Position]
 validCubeConfiguration = find isValidPositions . allCubeConfigurations
+
+
+countValidCubeConfigurations :: [Cube] -> Int
+countValidCubeConfigurations =
+    length . filter isValidPositions . allCubeConfigurations
